@@ -67,9 +67,8 @@ h3 { font-size: clamp(1.3rem, 2.4vw, 1.7rem); }
 .checklist li:before { flex: none; font-weight: 800; margin-top: 1px; }
 .checklist li.inc:before { content: "✓"; color: var(--green); }
 
-/* ---------- Registration card ---------- */
-.form-card { background: var(--bg-card); border: 1px solid var(--line); border-radius: var(--radius); padding: 40px; margin-top: 36px; }
-.form-note { color: var(--text-mute); font-size: .92rem; margin-bottom: 24px; }
+/* ---------- Registration (let the GHL form's own styling show) ---------- */
+.form-card { background: transparent; border: 0; padding: 0; margin-top: 0; }
 
 /* embedded GoHighLevel form */
 .ghl-embed { width: 100%; min-height: 560px; }
@@ -111,11 +110,8 @@ h3 { font-size: clamp(1.3rem, 2.4vw, 1.7rem); }
     </div>
 
     <div class="checkout-grid">
-      <!-- REGISTRATION — GoHighLevel embedded form -->
+      <!-- REGISTRATION — GoHighLevel embedded form (heading, fields & button live inside the form) -->
       <div class="form-card">
-        <h3 style="font-size:1.2rem;margin-bottom:6px;">Where Should We Send Your Access?</h3>
-        <p class="form-note">Reserve your spot below. Secure payment is on the next step.</p>
-
         <div class="ghl-embed">
           <iframe
             src="https://brand.3d-visionz.com/widget/form/4wQcKvBUKgzaLodFnX54?notrack=true"
