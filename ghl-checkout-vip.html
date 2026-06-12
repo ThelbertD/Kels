@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VIP Checkout — Blueprint to Builder Summit | 3D VISIONZ</title>
+<meta name="robots" content="noindex">
+
+<!-- ============================================================
+     GHL-READY CHECKOUT — VIP ($97)
+     Self-contained: fonts + all CSS + all JS inlined.
+     Hardcoded to the VIP tier (no ?tier= needed).
+     Paste this whole file into a GoHighLevel "Custom Code" element
+     on your VIP checkout step.
+     NOTE: the card fields are a styled placeholder for layout. On the
+     live funnel, replace Step 2 with the GHL order form + payment element.
+     ============================================================ -->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+/* ============ DESIGN SYSTEM (tokens, base, buttons) ============ */
+:root {
+  --bg: #07231a; --bg-alt: #0a2a20; --bg-card: #0d3327; --bg-card-2: #114031;
+  --line: #1d5240; --text: #f3efe2; --text-dim: #b3c6ba; --text-mute: #7a9486;
+  --gold: #d3ad57; --gold-2: #e8cb7e; --gold-deep: #a17f2d;
+  --red: #1f7a59; --red-2: #2a9168; --green: #2fbf71;
+  --radius: 14px; --radius-sm: 9px;
+  --shadow: 0 20px 60px rgba(0, 0, 0, 0.55); --shadow-gold: 0 14px 40px rgba(211, 173, 87, 0.30);
+  --maxw: 1140px;
+  --font: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-head: "Anton", "Inter", sans-serif;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: var(--font); background: var(--bg); color: var(--text); line-height: 1.65; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+
+/* ---------- FULL-BLEED wrapper for GoHighLevel ---------- */
+.bb-fullbleed { position: relative; width: 100vw; left: 50%; right: 50%; margin-left: -50vw; margin-right: -50vw; background: var(--bg); overflow-x: hidden; }
+.bb-fullbleed img { max-width: 100%; }
+
+img { max-width: 100%; display: block; }
+a { color: inherit; text-decoration: none; }
+.wrap { width: 100%; max-width: var(--maxw); margin: 0 auto; padding: 0 22px; }
+section { position: relative; }
+.section { padding: 64px 0; }
+.eyebrow { display: inline-block; font-size: 13px; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold); margin-bottom: 14px; }
+h2, h3 { font-family: var(--font-head); font-weight: 400; line-height: 1.04; letter-spacing: 0.01em; text-transform: uppercase; }
+h2 { font-size: clamp(1.9rem, 4vw, 3rem); }
+h3 { font-size: clamp(1.3rem, 2.4vw, 1.7rem); }
+.center { text-align: center; }
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; font-family: var(--font); font-weight: 800; font-size: 1.06rem; letter-spacing: 0.01em; text-align: center; padding: 18px 34px; border-radius: 100px; border: none; cursor: pointer; transition: transform .15s ease, box-shadow .15s ease, filter .15s ease; line-height: 1.2; }
+.btn-gold { background: linear-gradient(180deg, var(--gold-2), var(--gold-deep)); color: #1a1306; box-shadow: var(--shadow-gold); }
+.btn-gold:hover { transform: translateY(-2px); filter: brightness(1.05); }
+.btn-block { display: flex; width: 100%; }
+.btn-lg { padding: 22px 40px; font-size: 1.15rem; }
+.skiplink { display: inline-block; margin-top: 16px; color: var(--text-mute); font-size: .9rem; text-decoration: underline; }
+.skiplink:hover { color: var(--text-dim); }
+.topbar { background: linear-gradient(90deg, var(--gold-deep), var(--gold)); color: #1a1306; text-align: center; font-weight: 700; font-size: .9rem; letter-spacing: .04em; padding: 9px 16px; }
+.brandbar { border-bottom: 1px solid var(--line); background: rgba(10,14,23,.85); backdrop-filter: blur(8px); position: sticky; top: 0; z-index: 50; }
+.brandbar .wrap { display: flex; align-items: center; justify-content: space-between; padding-top: 14px; padding-bottom: 14px; }
+.logo { display: inline-block; font-family: var(--font-head); font-size: 1.25rem; letter-spacing: .04em; }
+.logo span { color: var(--gold); }
+.brandbar .meta { font-size: .85rem; color: var(--text-dim); font-weight: 600; }
+.footer { background: #051a13; border-top: 1px solid var(--line); padding: 40px 0; text-align: center; color: var(--text-mute); font-size: .88rem; }
+.footer .logo { margin-bottom: 10px; }
+
+/* ---------- Checklist ---------- */
+.checklist { list-style: none; display: grid; gap: 11px; margin: 0; }
+.checklist li { display: flex; gap: 11px; font-size: .95rem; color: var(--text-dim); align-items: flex-start; }
+.checklist li:before { flex: none; font-weight: 800; margin-top: 1px; }
+.checklist li.inc:before { content: "✓"; color: var(--green); }
+
+/* ---------- Forms ---------- */
+.form-card { background: var(--bg-card); border: 1px solid var(--line); border-radius: var(--radius); padding: 40px; margin-top: 36px; }
+.form-note { color: var(--text-mute); font-size: .92rem; margin-bottom: 24px; }
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+.field { display: flex; flex-direction: column; gap: 7px; }
+.field.full { grid-column: 1 / -1; }
+.field label { font-size: .85rem; font-weight: 600; color: var(--text-dim); }
+.field input, .field select { background: var(--bg); border: 1px solid var(--line); border-radius: var(--radius-sm); padding: 13px 15px; color: var(--text); font-family: var(--font); font-size: 1rem; width: 100%; }
+.field input:focus, .field select:focus { outline: none; border-color: var(--gold); }
+
+/* ---------- Checkout layout ---------- */
+.checkout-grid { display: grid; grid-template-columns: 1.3fr .9fr; gap: 30px; margin-top: 36px; align-items: start; }
+.summary { background: var(--bg-card); border: 1px solid var(--gold-deep); border-radius: var(--radius); padding: 28px; position: sticky; top: 90px; }
+.summary .srow { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid var(--line); }
+.summary .srow:last-of-type { border-bottom: 0; }
+.summary .stier { font-family: var(--font-head); color: var(--gold); font-size: 1.4rem; }
+.summary .stotal { font-family: var(--font-head); font-size: 2rem; color: var(--text); }
+.bump { background: var(--bg-card-2); border: 1px dashed var(--gold-deep); border-radius: var(--radius-sm); padding: 18px 20px; margin: 22px 0; display: flex; gap: 12px; align-items: flex-start; }
+.bump input { margin-top: 4px; width: 18px; height: 18px; accent-color: var(--gold); }
+.bump label { color: var(--text-dim); font-size: .95rem; }
+.bump label b { color: var(--gold-2); }
+.trust-strip { display: flex; flex-wrap: wrap; gap: 14px 22px; justify-content: center; margin-top: 22px; color: var(--text-mute); font-size: .85rem; }
+.trust-strip span { display: inline-flex; align-items: center; gap: 7px; }
+.trust-strip span:before { content: "🔒"; }
+.trust-strip span.g:before { content: "✓"; color: var(--green); }
+.trust-strip span.c:before { content: "★"; color: var(--gold); }
+.pay-note { text-align: center; color: var(--text-mute); font-size: .85rem; margin-top: 14px; }
+
+/* ---------- 2-step order form ---------- */
+.step-bar { display: flex; gap: 10px; margin-bottom: 24px; }
+.step-bar .sb { flex: 1; display: flex; align-items: center; gap: 10px; padding: 11px 14px; border-radius: 10px; background: var(--bg); border: 1px solid var(--line); color: var(--text-mute); font-weight: 700; font-size: .9rem; }
+.step-bar .sb .n { width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: var(--bg-card-2); color: var(--text-dim); font-size: .82rem; flex: none; }
+.step-bar .sb.active { border-color: var(--gold); color: var(--text); }
+.step-bar .sb.active .n { background: linear-gradient(180deg, var(--gold-2), var(--gold-deep)); color: #1a1306; }
+.step-bar .sb.done { border-color: var(--green); color: var(--text-dim); }
+.step-bar .sb.done .n { background: var(--green); color: #04140e; }
+.step-bar .sb.done .n:after { content: "✓"; }
+.step-bar .sb.done .n span { display: none; }
+.fstep[hidden] { display: none; }
+.back-link { display: inline-block; margin-top: 14px; color: var(--text-mute); text-decoration: underline; cursor: pointer; font-size: .9rem; background: none; border: 0; font-family: var(--font); }
+.back-link:hover { color: var(--text-dim); }
+.phone-row { display: flex; gap: 8px; }
+.phone-row .ccode { flex: none; width: auto; max-width: 110px; }
+.phone-row input { flex: 1; min-width: 0; }
+
+/* success banner after demo submit */
+.form-success { display: none; background: rgba(47,191,113,.12); border: 1px solid var(--green); color: var(--text); border-radius: var(--radius-sm); padding: 16px 18px; margin-top: 16px; font-weight: 600; }
+
+@media (max-width: 900px) {
+  .checkout-grid { grid-template-columns: 1fr; }
+  .summary { position: static; }
+  .form-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- Full-bleed wrapper so the page fills the full funnel width inside GHL -->
+<div class="bb-fullbleed">
+
+<div class="topbar">🔒 SECURE CHECKOUT · POWERED BY SQUARE</div>
+
+<header class="brandbar">
+  <div class="wrap">
+    <a href="https://3-dvisionz-ruddy.vercel.app/" class="logo">3D<span>VISIONZ</span></a>
+    <div class="meta">VIP Checkout</div>
+  </div>
+</header>
+
+<section class="section">
+  <div class="wrap">
+    <div class="center">
+      <div class="eyebrow">Almost In · VIP Access</div>
+      <h2>Complete Your Registration</h2>
+    </div>
+
+    <div class="checkout-grid">
+      <!-- 2-STEP ORDER FORM (VIP) -->
+      <form class="form-card" id="checkout-form">
+        <input type="hidden" name="tier" value="vip">
+        <input type="hidden" name="tier_price" value="97">
+
+        <div class="step-bar">
+          <div class="sb active" id="sb1"><span class="n"><span>1</span></span> Your Info</div>
+          <div class="sb" id="sb2"><span class="n"><span>2</span></span> Payment</div>
+        </div>
+
+        <!-- STEP 1 — contact -->
+        <div class="fstep" data-step="1" id="step1">
+          <h3 style="font-size:1.2rem;margin-bottom:6px;">Where Should We Send Your Access?</h3>
+          <p class="form-note">Step 1 of 2 — reserve your spot. You won't be charged yet.</p>
+          <div class="form-grid">
+            <div class="field"><label>First Name</label><input type="text" name="first_name" autocomplete="given-name" required></div>
+            <div class="field"><label>Last Name</label><input type="text" name="last_name" autocomplete="family-name" required></div>
+            <div class="field"><label>Email</label><input type="email" name="email" autocomplete="email" required></div>
+            <div class="field"><label>Phone</label>
+              <div class="phone-row">
+                <select name="phone_country" id="phone-country" class="ccode" aria-label="Phone code"></select>
+                <input type="tel" name="phone" autocomplete="tel" placeholder="Phone number" required>
+              </div>
+            </div>
+          </div>
+          <button type="button" id="to-step2" class="btn btn-gold btn-block btn-lg" style="margin-top:8px;">Continue to Payment →</button>
+          <p class="pay-note">No spam — your info secures your seat and your session reminders.</p>
+        </div>
+
+        <!-- STEP 2 — billing / payment -->
+        <div class="fstep" data-step="2" id="step2" hidden>
+          <h3 style="font-size:1.2rem;margin:0 0 6px;">Payment</h3>
+          <div class="form-grid">
+            <div class="field full"><label>Card Number</label><input type="text" inputmode="numeric" name="card_number" placeholder="•••• •••• •••• ••••" aria-label="Card number (Square element on live build)"></div>
+            <div class="field"><label>Expiry</label><input type="text" name="card_exp" placeholder="MM / YY"></div>
+            <div class="field"><label>CVC</label><input type="text" name="card_cvc" placeholder="•••"></div>
+            <div class="field"><label>Billing ZIP</label><input type="text" name="billing_zip"></div>
+            <div class="field full"><label>Country</label>
+              <select name="billing_country"><option>United States</option><option>Canada</option><option>Other</option></select>
+            </div>
+          </div>
+          <p class="form-note">Card fields are placeholders for the layout. On the live funnel these are replaced by the <strong>Square payment element</strong> inside the GHL order form.</p>
+
+          <!-- ORDER BUMP [SWAP] -->
+          <div class="bump">
+            <input type="checkbox" name="order_bump" id="bump" value="1">
+            <label for="bump"><b>YES — add the [SWAP — order bump name]</b> for just <b>$[SWAP]</b>. [One-line order-bump description pending.]</label>
+          </div>
+
+          <button type="submit" class="btn btn-gold btn-block btn-lg">Complete My VIP Order →</button>
+          <div class="form-success" id="form-success">✓ Order received — check your email for confirmation and your Zoom access link.</div>
+
+          <div class="trust-strip">
+            <span>Secure checkout via Square</span>
+            <span class="g">All payment options shown</span>
+            <span class="c">Hosted by Mike Jenkins · 100+ deals</span>
+          </div>
+          <button type="button" class="back-link" id="back-step1">← Back to your info</button>
+          <p class="pay-note">No refunds. By completing your order you agree to the summit terms.</p>
+        </div>
+      </form>
+
+      <!-- ORDER SUMMARY (VIP) -->
+      <aside class="summary">
+        <div class="eyebrow">Order Summary</div>
+        <div class="srow"><span>Ticket</span><span class="stier">VIP</span></div>
+        <div class="srow"><span>Blueprint to Builder Summit</span><span>$97</span></div>
+        <div class="srow" id="s-bump-row" style="display:none;"><span>[SWAP order bump]</span><span id="s-bump">$0</span></div>
+        <div class="srow"><span><b>Total Today</b></span><span class="stotal" id="s-total">$97</span></div>
+        <ul class="checklist" style="margin-top:18px;">
+          <li class="inc">3 nights live with Mike Jenkins</li>
+          <li class="inc">Private community access</li>
+          <li class="inc">Live Rick Ross Q&amp;A</li>
+          <li class="inc">Tier Zoom background + workbook + Telegram</li>
+          <li class="inc">Networking Night</li>
+          <li class="inc">Replay access (standard window)</li>
+        </ul>
+        <p style="color:var(--text-mute);font-size:.84rem;margin-top:14px;">July 7–9, 2026 · 8 PM EST nightly. VIP &amp; Platinum: Q&amp;A at 7 PM EST.</p>
+        <a href="https://3-dvisionz-ruddy.vercel.app/#tickets" class="skiplink">← Change ticket</a>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="wrap">
+    <a href="https://3-dvisionz-ruddy.vercel.app/" class="logo">3D<span>VISIONZ</span></a>
+    <p>© 2026 3D VISIONZ · Blueprint to Builder Summit</p>
+  </div>
+</footer>
+
+</div><!-- /.bb-fullbleed -->
+
+<script>
+(function () {
+  var BUMP_PRICE = 0;        // [SWAP] set when the order bump is confirmed
+  var TIER_PRICE = 97;       // VIP
+
+  // ---- Country dialing codes ----
+  var CODES = ["+1","+7","+20","+27","+30","+31","+32","+33","+34","+36","+39","+40","+41","+43","+44","+45","+46","+47","+48","+49","+51","+52","+53","+54","+55","+56","+57","+58","+60","+61","+62","+63","+64","+65","+66","+81","+82","+84","+86","+90","+91","+92","+93","+94","+95","+98","+212","+213","+216","+218","+220","+221","+223","+224","+225","+226","+227","+228","+229","+230","+231","+233","+234","+235","+236","+237","+238","+239","+240","+241","+242","+243","+244","+245","+248","+249","+250","+251","+252","+254","+255","+256","+257","+258","+260","+261","+263","+264","+265","+266","+267","+268","+269","+291","+297","+298","+299","+350","+351","+352","+353","+354","+355","+356","+357","+358","+359","+370","+371","+372","+373","+374","+375","+376","+377","+378","+379","+380","+381","+382","+385","+386","+387","+389","+420","+421","+423","+501","+502","+503","+504","+505","+506","+507","+509","+591","+592","+593","+595","+597","+598","+670","+673","+674","+675","+676","+677","+678","+679","+680","+685","+686","+688","+691","+692","+852","+853","+855","+856","+880","+886","+960","+961","+962","+963","+964","+965","+966","+967","+968","+970","+971","+972","+973","+974","+975","+976","+977","+992","+993","+994","+995","+996","+998"];
+  (function () {
+    var sel = document.getElementById("phone-country");
+    if (!sel) return;
+    CODES.forEach(function (code) {
+      var o = document.createElement("option");
+      o.value = code; o.textContent = code;
+      if (code === "+1") o.selected = true;
+      sel.appendChild(o);
+    });
+  })();
+
+  // ---- Order bump recalc ----
+  var bump = document.getElementById("bump");
+  function recalc() {
+    var on = bump.checked;
+    document.getElementById("s-bump-row").style.display = on ? "flex" : "none";
+    document.getElementById("s-bump").textContent = "$" + BUMP_PRICE;
+    document.getElementById("s-total").textContent = "$" + (TIER_PRICE + (on ? BUMP_PRICE : 0));
+  }
+  bump.addEventListener("change", recalc);
+  recalc();
+
+  // ---- 2-step flow ----
+  var form = document.getElementById("checkout-form");
+  var step1 = document.getElementById("step1"), step2 = document.getElementById("step2");
+  var sb1 = document.getElementById("sb1"), sb2 = document.getElementById("sb2");
+  var captured = false;
+
+  function step1Valid() {
+    return ["first_name", "last_name", "email", "phone"].every(function (n) {
+      var el = form.querySelector('[name="' + n + '"]');
+      if (!el.checkValidity()) { el.reportValidity(); return false; }
+      return true;
+    });
+  }
+
+  function captureCartStart() {
+    if (captured) return;
+    captured = true;
+    // GHL BUILD: abandon-cart START. The 2-step order form creates/updates the
+    // contact here and tags it (b2b_cart_abandon). Fire FB Lead + dataLayer too.
+    if (window.dataLayer) window.dataLayer.push({ event: "cart_start", tier: "vip" });
+  }
+
+  document.getElementById("to-step2").addEventListener("click", function () {
+    if (!step1Valid()) return;
+    captureCartStart();
+    step1.hidden = true; step2.hidden = false;
+    sb1.classList.add("done"); sb2.classList.add("active");
+    form.scrollIntoView({ behavior: "smooth", block: "start" });
+  });
+
+  document.getElementById("back-step1").addEventListener("click", function () {
+    step2.hidden = true; step1.hidden = false;
+    sb2.classList.remove("active"); sb1.classList.remove("done");
+    form.scrollIntoView({ behavior: "smooth", block: "start" });
+  });
+
+  // Demo submit — on the live GHL build the order form + Square element handle this.
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    var btn = form.querySelector("button[type=submit]");
+    if (btn) { btn.textContent = "Submitted ✓"; btn.disabled = true; }
+    var ok = document.getElementById("form-success");
+    if (ok) ok.style.display = "block";
+  });
+})();
+</script>
+</body>
+</html>
