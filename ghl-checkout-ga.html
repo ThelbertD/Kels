@@ -118,6 +118,10 @@ h3 { font-size: clamp(1.3rem, 2.4vw, 1.7rem); }
 .phone-row .ccode { flex: none; width: auto; max-width: 110px; }
 .phone-row input { flex: 1; min-width: 0; }
 
+/* embedded GoHighLevel form (Step 1) */
+.ghl-embed { width: 100%; min-height: 560px; margin-bottom: 8px; }
+.ghl-embed iframe { width: 100%; min-height: 560px; border: 0; border-radius: var(--radius-sm); display: block; background: transparent; }
+
 /* success banner after demo submit */
 .form-success { display: none; background: rgba(47,191,113,.12); border: 1px solid var(--green); color: var(--text); border-radius: var(--radius-sm); padding: 16px 18px; margin-top: 16px; font-weight: 600; }
 
@@ -164,19 +168,24 @@ h3 { font-size: clamp(1.3rem, 2.4vw, 1.7rem); }
         <div class="fstep" data-step="1" id="step1">
           <h3 style="font-size:1.2rem;margin-bottom:6px;">Where Should We Send Your Access?</h3>
           <p class="form-note">Step 1 of 2 — reserve your spot. You won't be charged yet.</p>
-          <div class="form-grid">
-            <div class="field"><label>First Name</label><input type="text" name="first_name" autocomplete="given-name" required></div>
-            <div class="field"><label>Last Name</label><input type="text" name="last_name" autocomplete="family-name" required></div>
-            <div class="field"><label>Email</label><input type="email" name="email" autocomplete="email" required></div>
-            <div class="field"><label>Phone</label>
-              <div class="phone-row">
-                <select name="phone_country" id="phone-country" class="ccode" aria-label="Phone code"></select>
-                <input type="tel" name="phone" autocomplete="tel" placeholder="Phone number" required>
-              </div>
-            </div>
+
+          <!-- GoHighLevel embedded registration form (Step 1) -->
+          <div class="ghl-embed">
+            <iframe
+              src="https://brand.3d-visionz.com/widget/form/4wQcKvBUKgzaLodFnX54?notrack=true"
+              id="inline-4wQcKvBUKgzaLodFnX54"
+              title="GA Registration"
+              scrolling="no"
+              data-layout="{'id':'INLINE'}"
+              data-trigger-type="alwaysShow"
+              data-form-id="4wQcKvBUKgzaLodFnX54"
+              data-height="560"
+              data-deactivation-type="never"
+              data-form-name="GA Registration"></iframe>
           </div>
+
           <button type="button" id="to-step2" class="btn btn-gold btn-block btn-lg" style="margin-top:8px;">Continue to Payment →</button>
-          <p class="pay-note">No spam — your info secures your seat and your session reminders.</p>
+          <p class="pay-note">Fill the form above, then continue to secure your seat.</p>
         </div>
 
         <!-- STEP 2 — billing / payment -->
@@ -240,6 +249,9 @@ h3 { font-size: clamp(1.3rem, 2.4vw, 1.7rem); }
 
 </div><!-- /.bb-fullbleed -->
 
+<!-- GoHighLevel form auto-resize / embed script -->
+<script src="https://brand.3d-visionz.com/js/form_embed.js"></script>
+
 <script>
 (function () {
   var BUMP_PRICE = 0;        // [SWAP] set when the order bump is confirmed
@@ -276,11 +288,8 @@ h3 { font-size: clamp(1.3rem, 2.4vw, 1.7rem); }
   var captured = false;
 
   function step1Valid() {
-    return ["first_name", "last_name", "email", "phone"].every(function (n) {
-      var el = form.querySelector('[name="' + n + '"]');
-      if (!el.checkValidity()) { el.reportValidity(); return false; }
-      return true;
-    });
+    // Contact validation is handled inside the embedded GoHighLevel form.
+    return true;
   }
 
   function captureCartStart() {
