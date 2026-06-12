@@ -74,18 +74,13 @@ h3 { font-size: clamp(1.3rem, 2.4vw, 1.7rem); }
 .ghl-embed { width: 100%; min-height: 560px; }
 .ghl-embed iframe { width: 100%; min-height: 560px; border: 0; border-radius: var(--radius-sm); display: block; background: transparent; }
 
-/* ---------- Checkout layout ---------- */
-.checkout-grid { display: grid; grid-template-columns: 1.3fr .9fr; gap: 30px; margin-top: 36px; align-items: start; }
-.summary { background: var(--bg-card); border: 1px solid var(--gold-deep); border-radius: var(--radius); padding: 28px; position: sticky; top: 90px; }
+/* ---------- Checkout layout (single centered column to match the GHL form width) ---------- */
+.checkout-grid { max-width: 760px; margin: 36px auto 0; }
+.summary { background: var(--bg-card); border: 1px solid var(--gold-deep); border-radius: var(--radius); padding: 28px; margin-top: 24px; }
 .summary .srow { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid var(--line); }
 .summary .srow:last-of-type { border-bottom: 0; }
 .summary .stier { font-family: var(--font-head); color: var(--gold); font-size: 1.4rem; }
 .summary .stotal { font-family: var(--font-head); font-size: 2rem; color: var(--text); }
-
-@media (max-width: 900px) {
-  .checkout-grid { grid-template-columns: 1fr; }
-  .summary { position: static; }
-}
 </style>
 </head>
 <body>
