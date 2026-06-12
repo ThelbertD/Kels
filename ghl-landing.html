@@ -36,6 +36,13 @@
 * { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
 body { font-family: var(--font); background: var(--bg); color: var(--text); line-height: 1.65; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+
+/* ---------- FULL-BLEED wrapper for GoHighLevel ----------
+   GHL drops pasted code inside a narrow, centered column with a white page
+   background. This breaks the whole page out to the full viewport width so
+   the dark-green design reaches both screen edges (no white gutters). */
+.bb-fullbleed { position: relative; width: 100vw; left: 50%; right: 50%; margin-left: -50vw; margin-right: -50vw; background: var(--bg); overflow-x: hidden; }
+.bb-fullbleed img { max-width: 100%; }
 img { max-width: 100%; display: block; }
 a { color: inherit; text-decoration: none; }
 .wrap { width: 100%; max-width: var(--maxw); margin: 0 auto; padding: 0 22px; }
@@ -234,6 +241,9 @@ h3 { font-size: clamp(1.3rem, 2.4vw, 1.7rem); }
 </style>
 </head>
 <body>
+
+<!-- Full-bleed wrapper so the page fills the full screen width inside GHL -->
+<div class="bb-fullbleed">
 
 <!-- URGENCY BAR 1 -->
 <div class="topbar">⚡ FAST ACTION BONUS: [will send]</div>
@@ -561,6 +571,8 @@ h3 { font-size: clamp(1.3rem, 2.4vw, 1.7rem); }
 <div class="sticky-cta">
   <a href="#tickets" class="btn btn-gold btn-block">SAVE MY SEAT</a>
 </div>
+
+</div><!-- /.bb-fullbleed -->
 
 <script>
 /* Blueprint to Builder Summit — countdown + form helpers (inlined) */
