@@ -74,6 +74,16 @@ h3 { font-size: clamp(1.3rem, 2.4vw, 1.7rem); }
 .ghl-embed { width: 100%; min-height: 560px; }
 .ghl-embed iframe { width: 100%; min-height: 560px; border: 0; border-radius: var(--radius-sm); display: block; background: transparent; }
 
+/* 2-step bar (Your Info → Payment) */
+.step-bar { display: flex; gap: 10px; margin-bottom: 20px; }
+.step-bar .sb { flex: 1; display: flex; align-items: center; gap: 10px; padding: 11px 14px; border-radius: 10px; background: var(--bg); border: 1px solid var(--line); color: var(--text-mute); font-weight: 700; font-size: .9rem; font-family: var(--font); cursor: pointer; }
+.step-bar .sb .n { width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: var(--bg-card-2); color: var(--text-dim); font-size: .82rem; flex: none; }
+.step-bar .sb.active { border-color: var(--gold); color: var(--text); }
+.step-bar .sb.active .n { background: linear-gradient(180deg, var(--gold-2), var(--gold-deep)); color: #1a1306; }
+.step-bar .sb.done { border-color: var(--green); color: var(--text-dim); }
+.step-bar .sb.done .n { background: var(--green); color: #04140e; }
+.fstep[hidden] { display: none; }
+
 /* ---------- Checkout layout (form left, order summary right) ---------- */
 .checkout-grid { display: grid; grid-template-columns: 1.5fr .9fr; gap: 30px; margin-top: 36px; align-items: start; }
 .summary { background: var(--bg-card); border: 1px solid var(--gold-deep); border-radius: var(--radius); padding: 28px; position: sticky; top: 90px; }
@@ -110,20 +120,45 @@ h3 { font-size: clamp(1.3rem, 2.4vw, 1.7rem); }
     </div>
 
     <div class="checkout-grid">
-      <!-- REGISTRATION — GoHighLevel embedded form (heading, fields & button live inside the form) -->
+      <!-- 2-STEP: registration (GHL) → payment (GHL) -->
       <div class="form-card">
-        <div class="ghl-embed">
-          <iframe
-            src="https://brand.3d-visionz.com/widget/form/4wQcKvBUKgzaLodFnX54?notrack=true"
-            id="inline-4wQcKvBUKgzaLodFnX54"
-            title="GA Registration"
-            scrolling="no"
-            data-layout="{'id':'INLINE'}"
-            data-trigger-type="alwaysShow"
-            data-form-id="4wQcKvBUKgzaLodFnX54"
-            data-height="560"
-            data-deactivation-type="never"
-            data-form-name="GA Registration"></iframe>
+        <div class="step-bar">
+          <button type="button" class="sb active" id="sb1"><span class="n">1</span> Your Info</button>
+          <button type="button" class="sb" id="sb2"><span class="n">2</span> Payment</button>
+        </div>
+
+        <!-- STEP 1 — registration form -->
+        <div class="fstep" id="step1">
+          <div class="ghl-embed">
+            <iframe
+              src="https://brand.3d-visionz.com/widget/form/4wQcKvBUKgzaLodFnX54?notrack=true"
+              id="inline-4wQcKvBUKgzaLodFnX54"
+              title="GA Registration"
+              scrolling="no"
+              data-layout="{'id':'INLINE'}"
+              data-trigger-type="alwaysShow"
+              data-form-id="4wQcKvBUKgzaLodFnX54"
+              data-height="560"
+              data-deactivation-type="never"
+              data-form-name="GA Registration"></iframe>
+          </div>
+        </div>
+
+        <!-- STEP 2 — payment form -->
+        <div class="fstep" id="step2" hidden>
+          <div class="ghl-embed">
+            <iframe
+              src="https://brand.3d-visionz.com/widget/form/UfqHge1gaevsjWwHhGoy?notrack=true"
+              id="inline-UfqHge1gaevsjWwHhGoy"
+              title="GA Payment"
+              scrolling="no"
+              data-layout="{'id':'INLINE'}"
+              data-trigger-type="alwaysShow"
+              data-form-id="UfqHge1gaevsjWwHhGoy"
+              data-height="560"
+              data-deactivation-type="never"
+              data-form-name="GA Payment"></iframe>
+          </div>
         </div>
       </div>
 
@@ -156,5 +191,35 @@ h3 { font-size: clamp(1.3rem, 2.4vw, 1.7rem); }
 
 <!-- GoHighLevel form auto-resize / embed script -->
 <script src="https://brand.3d-visionz.com/js/form_embed.js"></script>
+
+<script>
+/* 2-step flow: Your Info (registration) → Payment */
+(function () {
+  var step1 = document.getElementById("step1");
+  var step2 = document.getElementById("step2");
+  var sb1 = document.getElementById("sb1");
+  var sb2 = document.getElementById("sb2");
+
+  function show(step) {
+    var two = step === 2;
+    step1.hidden = two;
+    step2.hidden = !two;
+    sb1.classList.toggle("active", !two);
+    sb1.classList.toggle("done", two);
+    sb2.classList.toggle("active", two);
+    try { window.scrollTo({ top: 0, behavior: "smooth" }); } catch (e) {}
+  }
+
+  sb1.addEventListener("click", function () { show(1); });
+  sb2.addEventListener("click", function () { show(2); });
+
+  // Auto-advance to Payment when the GoHighLevel registration form is submitted.
+  window.addEventListener("message", function (e) {
+    if (!/(?:3d-visionz\.com|leadconnectorhq\.com|msgsndr\.com)/i.test(e.origin || "")) return;
+    var raw = typeof e.data === "string" ? e.data : JSON.stringify(e.data || "");
+    if (/submit/i.test(raw)) show(2);
+  });
+})();
+</script>
 </body>
 </html>
