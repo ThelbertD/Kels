@@ -233,12 +233,9 @@ h3 { font-size: clamp(1.3rem, 2.4vw, 1.7rem); }
     unlockPayment();
   }
 
-  // SECONDARY (best-effort): a submit postMessage from the GHL form, if it fires one.
-  window.addEventListener("message", function (e) {
-    if (!/(?:3d-visionz\.com|leadconnectorhq\.com|msgsndr\.com)/i.test(e.origin || "")) return;
-    var raw = typeof e.data === "string" ? e.data : JSON.stringify(e.data || "");
-    if (/submit/i.test(raw)) unlockPayment();
-  });
+  // NOTE: advancing to Payment relies ONLY on the ?step=2 redirect above, so the lock
+  // cannot be bypassed. (A postMessage "submit" listener was removed — GHL's embed posts
+  // messages that falsely contained "submit" and unlocked Payment on page load.)
 })();
 </script>
 </body>
