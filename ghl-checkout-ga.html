@@ -85,6 +85,11 @@ h3 { font-size: clamp(1.3rem, 2.4vw, 1.7rem); }
 .step-bar .sb.locked { opacity: .5; cursor: not-allowed; pointer-events: none; }
 .fstep[hidden] { display: none; }
 
+/* Continue-to-Payment button (advances to Step 2 on the same page) */
+.continue-btn { display: flex; width: 100%; align-items: center; justify-content: center; gap: 10px; margin-top: 18px; padding: 20px 34px; font-family: var(--font); font-weight: 800; font-size: 1.12rem; color: #1a1306; background: linear-gradient(180deg, var(--gold-2), var(--gold-deep)); border: none; border-radius: 100px; box-shadow: var(--shadow-gold); cursor: pointer; transition: transform .15s ease, filter .15s ease; }
+.continue-btn:hover { transform: translateY(-2px); filter: brightness(1.05); }
+.continue-note { text-align: center; color: var(--text-mute); font-size: .85rem; margin-top: 12px; }
+
 /* ---------- Checkout layout (form left, order summary right) ---------- */
 .checkout-grid { display: grid; grid-template-columns: 1.5fr .9fr; gap: 30px; margin-top: 36px; align-items: start; }
 .summary { background: var(--bg-card); border: 1px solid var(--gold-deep); border-radius: var(--radius); padding: 28px; position: sticky; top: 90px; }
@@ -143,6 +148,8 @@ h3 { font-size: clamp(1.3rem, 2.4vw, 1.7rem); }
               data-deactivation-type="never"
               data-form-name="GA Registration"></iframe>
           </div>
+          <button type="button" id="to-payment" class="continue-btn">Continue to Payment →</button>
+          <p class="continue-note">Fill in your info above, then continue to secure your seat.</p>
         </div>
 
         <!-- STEP 2 — payment form -->
@@ -224,7 +231,11 @@ h3 { font-size: clamp(1.3rem, 2.4vw, 1.7rem); }
   sb1.addEventListener("click", function () { show(1); });
   sb2.addEventListener("click", function () { show(2); });   // ignored while locked
 
-  // PRIMARY (reliable): the Step 1 GHL form redirects back here with ?step=2 on submit.
+  // Continue button under Step 1 — advances to Payment on the same page.
+  var toPayment = document.getElementById("to-payment");
+  if (toPayment) toPayment.addEventListener("click", unlockPayment);
+
+  // OPTIONAL: the Step 1 GHL form redirects back here with ?step=2 on submit.
   // Set this in GHL: Form settings → On Submit → Redirect to THIS page URL + "?step=2".
   if (/[?&]step=2(?:&|$)/.test(location.search) || /step2/i.test(location.hash)) {
     unlockPayment();
