@@ -82,7 +82,7 @@ h3 { font-size: clamp(1.3rem, 2.4vw, 1.7rem); }
 .step-bar .sb.active .n { background: linear-gradient(180deg, var(--gold-2), var(--gold-deep)); color: #1a1306; }
 .step-bar .sb.done { border-color: var(--green); color: var(--text-dim); }
 .step-bar .sb.done .n { background: var(--green); color: #04140e; }
-.step-bar .sb.locked { opacity: .5; cursor: not-allowed; }
+.step-bar .sb.locked { opacity: .5; cursor: not-allowed; pointer-events: none; }
 .fstep[hidden] { display: none; }
 
 /* ---------- Checkout layout (form left, order summary right) ---------- */
@@ -227,7 +227,13 @@ h3 { font-size: clamp(1.3rem, 2.4vw, 1.7rem); }
   sb1.addEventListener("click", function () { show(1); });
   sb2.addEventListener("click", function () { show(2); });   // ignored while locked
 
-  // Unlock + advance to Payment ONLY when the Step 1 registration form is submitted.
+  // PRIMARY (reliable): the Step 1 GHL form redirects back here with ?step=2 on submit.
+  // Set this in GHL: Form settings → On Submit → Redirect to THIS page URL + "?step=2".
+  if (/[?&]step=2(?:&|$)/.test(location.search) || /step2/i.test(location.hash)) {
+    unlockPayment();
+  }
+
+  // SECONDARY (best-effort): a submit postMessage from the GHL form, if it fires one.
   window.addEventListener("message", function (e) {
     if (!/(?:3d-visionz\.com|leadconnectorhq\.com|msgsndr\.com)/i.test(e.origin || "")) return;
     var raw = typeof e.data === "string" ? e.data : JSON.stringify(e.data || "");
