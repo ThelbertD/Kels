@@ -82,6 +82,7 @@ h3 { font-size: clamp(1.3rem, 2.4vw, 1.7rem); }
 .step-bar .sb.active .n { background: linear-gradient(180deg, var(--gold-2), var(--gold-deep)); color: #1a1306; }
 .step-bar .sb.done { border-color: var(--green); color: var(--text-dim); }
 .step-bar .sb.done .n { background: var(--green); color: #04140e; }
+.step-bar .sb.locked { opacity: .5; cursor: not-allowed; }
 .fstep[hidden] { display: none; }
 
 /* ---------- Checkout layout (form left, order summary right) ---------- */
@@ -124,7 +125,7 @@ h3 { font-size: clamp(1.3rem, 2.4vw, 1.7rem); }
       <div class="form-card">
         <div class="step-bar">
           <button type="button" class="sb active" id="sb1"><span class="n">1</span> Your Info</button>
-          <button type="button" class="sb" id="sb2"><span class="n">2</span> Payment</button>
+          <button type="button" class="sb locked" id="sb2" aria-disabled="true"><span class="n">2</span> Payment</button>
         </div>
 
         <!-- STEP 1 — registration form -->
@@ -193,14 +194,16 @@ h3 { font-size: clamp(1.3rem, 2.4vw, 1.7rem); }
 <script src="https://brand.3d-visionz.com/js/form_embed.js"></script>
 
 <script>
-/* 2-step flow: Your Info (registration) → Payment */
+/* 2-step flow: Step 2 (Payment) stays LOCKED until the Step 1 form is submitted */
 (function () {
   var step1 = document.getElementById("step1");
   var step2 = document.getElementById("step2");
   var sb1 = document.getElementById("sb1");
   var sb2 = document.getElementById("sb2");
+  var step1Done = false;
 
   function show(step) {
+    if (step === 2 && !step1Done) return;   // blocked until registration is submitted
     var two = step === 2;
     step1.hidden = two;
     step2.hidden = !two;
@@ -210,14 +213,22 @@ h3 { font-size: clamp(1.3rem, 2.4vw, 1.7rem); }
     try { window.scrollTo({ top: 0, behavior: "smooth" }); } catch (e) {}
   }
 
-  sb1.addEventListener("click", function () { show(1); });
-  sb2.addEventListener("click", function () { show(2); });
+  function unlockPayment() {
+    if (step1Done) return;
+    step1Done = true;
+    sb2.classList.remove("locked");
+    sb2.removeAttribute("aria-disabled");
+    show(2);
+  }
 
-  // Auto-advance to Payment when the GoHighLevel registration form is submitted.
+  sb1.addEventListener("click", function () { show(1); });
+  sb2.addEventListener("click", function () { show(2); });   // ignored while locked
+
+  // Unlock + advance to Payment ONLY when the Step 1 registration form is submitted.
   window.addEventListener("message", function (e) {
     if (!/(?:3d-visionz\.com|leadconnectorhq\.com|msgsndr\.com)/i.test(e.origin || "")) return;
     var raw = typeof e.data === "string" ? e.data : JSON.stringify(e.data || "");
-    if (/submit/i.test(raw)) show(2);
+    if (/submit/i.test(raw)) unlockPayment();
   });
 })();
 </script>
