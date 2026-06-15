@@ -109,8 +109,11 @@
 /* ---------- Reference-style hero (figure left, copy right) ---------- */
 .hero-ref { position: relative; overflow: hidden; padding: 0; background: #04140e; }
 .hero-ref-bg { position: absolute; inset: 0; z-index: 0;
-  background: radial-gradient(720px 400px at 94% 6%, rgba(47,191,113,.30), transparent 60%),
-              linear-gradient(180deg, #07241a, #04140e); }
+  background:
+    linear-gradient(180deg, rgba(7,36,26,.38), rgba(4,20,14,.66)),
+    radial-gradient(720px 400px at 94% 6%, rgba(47,191,113,.22), transparent 60%),
+    url('Row%204%20DARK%20BG.png') center / cover no-repeat;
+  background-color: #04140e; }
 .hero-ref-bg:before { content:""; position:absolute; inset:0;
   background-image: linear-gradient(rgba(47,191,113,.07) 1px, transparent 1px),
                     linear-gradient(90deg, rgba(47,191,113,.07) 1px, transparent 1px);
@@ -118,11 +121,9 @@
   -webkit-mask-image: radial-gradient(900px 520px at 55% 55%, #000, transparent 82%);
           mask-image: radial-gradient(900px 520px at 55% 55%, #000, transparent 82%); }
 .hero-ref-grid { position: relative; z-index: 1; display: grid;
-  grid-template-columns: 0.92fr 1.18fr; gap: 16px; align-items: end; min-height: 560px; }
-.hero-ref-photo { align-self: end; }
-.hero-ref-photo img { display:block; width:100%; height:auto; max-height: 640px; object-fit: contain; object-position: bottom left;
-  -webkit-mask-image: linear-gradient(to right, #000 70%, transparent 98%);
-          mask-image: linear-gradient(to right, #000 70%, transparent 98%); }
+  grid-template-columns: 1.45fr 1fr; gap: 16px; align-items: end; min-height: 520px; }
+.hero-ref-photo { align-self: end; transform: translateX(-70px); }
+.hero-ref-photo img { display: block; width: 100%; height: auto; }
 .hero-ref-copy { padding: 44px 0 56px; }
 .hero-ref-copy .hero-logo { max-width: 240px; margin-bottom: 12px; border:0; background:transparent; min-height:0; }
 .hero-ref-copy .hero-logo .slot-tag { font-size:.6rem; }
@@ -135,7 +136,7 @@
   color: transparent; -webkit-text-stroke: 1.5px var(--gold); text-stroke: 1.5px var(--gold);
   border-bottom: 3px solid var(--gold); padding-bottom: 6px; display: inline-block; }
 
-.ref-date { font-family: var(--font-head); color:#fff; font-size: clamp(1.05rem,2.2vw,1.5rem); letter-spacing:.05em; margin-top: 18px; }
+.ref-date { font-family: var(--font-head); color:#fff; font-size: clamp(1.05rem,2.2vw,1.5rem); letter-spacing:.05em; margin-top: -22px; }
 
 .ref-avatars { display:flex; margin-top: 18px; }
 .ref-avatars .a { width:46px; height:46px; border-radius:50%; margin-left:-12px; border:3px solid #07241a;
@@ -157,8 +158,9 @@
 
 @media (max-width: 900px) {
   .hero-ref-grid { grid-template-columns: 1fr; align-items: center; min-height: 0; gap: 0; }
-  .hero-ref-photo { max-width: 360px; margin: 0 auto; order: -1; }
+  .hero-ref-photo { max-width: 420px; margin: 0 auto; order: -1; transform: none; }
   .hero-ref-photo img { -webkit-mask-image:none; mask-image:none; }
+  .ref-date { margin-top: 0; }
   .hero-ref-copy { text-align: center; padding: 14px 0 36px; }
   .hero-ref-copy .hero-logo { margin-left:auto; margin-right:auto; }
   .ref-title .l3 { display:inline-block; }
