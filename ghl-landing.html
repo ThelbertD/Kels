@@ -194,6 +194,8 @@ h3 { font-size: clamp(1.3rem, 2.4vw, 1.7rem); }
 .guest-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 26px; margin-top: 40px; max-width: 760px; margin-left: auto; margin-right: auto; }
 .guest-card { background: var(--bg-card); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; }
 .guest-card .slot { aspect-ratio: 4/5; border-radius: 0; border: 0; border-bottom: 1px dashed var(--gold-deep); }
+.guest-card .slot.blend { border: 0; background: transparent; }
+.guest-card .slot.blend > img { object-fit: cover; object-position: center top; -webkit-mask-image: radial-gradient(ellipse 86% 90% at 50% 38%, #000 54%, transparent 100%); mask-image: radial-gradient(ellipse 86% 90% at 50% 38%, #000 54%, transparent 100%); }
 .guest-card .gc-body { padding: 20px 22px; }
 .guest-card .gc-role { color: var(--gold); font-weight: 700; letter-spacing: .12em; text-transform: uppercase; font-size: .76rem; }
 .guest-card .gc-name { font-family: var(--font-head); font-size: 1.5rem; margin-top: 4px; }
@@ -500,10 +502,10 @@ h3 { font-size: clamp(1.3rem, 2.4vw, 1.7rem); }
         </div>
       </div>
       <div class="guest-card">
-        <div class="slot led"><img src="https://kels-topaz.vercel.app/assets/Emcee.png" alt="Summit emcee" onerror="this.closest('.slot').classList.add('empty');this.remove()"><span class="slot-tag">Emcee card [SWAP]</span></div>
+        <div class="slot blend" style="aspect-ratio:4/5"><img src="https://kels-topaz.vercel.app/assets/David%20PowerTalk%206.png" alt="David — host / emcee" onerror="this.closest('.slot').classList.add('empty');this.remove()"><span class="slot-tag">David</span></div>
         <div class="gc-body">
           <div class="gc-role">Your Host / Emcee</div>
-          <div class="gc-name">[SWAP — Shaky or David]</div>
+          <div class="gc-name">David</div>
           <div class="gc-note">Keeping all 3 nights moving.</div>
         </div>
       </div>

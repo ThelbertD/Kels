@@ -222,6 +222,11 @@
 .guest-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 26px; margin-top: 40px; max-width: 760px; margin-left: auto; margin-right: auto; }
 .guest-card { background: var(--bg-card); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; }
 .guest-card .slot { aspect-ratio: 4/5; border-radius: 0; border: 0; border-bottom: 1px dashed var(--gold-deep); }
+/* Blended headshot: soft-fade the portrait edges into the card (no hard frame) */
+.guest-card .slot.blend { border: 0; background: transparent; }
+.guest-card .slot.blend > img { object-fit: cover; object-position: center top;
+  -webkit-mask-image: radial-gradient(ellipse 86% 90% at 50% 38%, #000 54%, transparent 100%);
+          mask-image: radial-gradient(ellipse 86% 90% at 50% 38%, #000 54%, transparent 100%); }
 .guest-card .gc-body { padding: 20px 22px; }
 .guest-card .gc-role { color: var(--gold); font-weight: 700; letter-spacing: .12em; text-transform: uppercase; font-size: .76rem; }
 .guest-card .gc-name { font-family: var(--font-head); font-size: 1.5rem; margin-top: 4px; }
