@@ -307,9 +307,14 @@ h3 { font-size: clamp(1.3rem, 2.4vw, 1.7rem); }
 <section class="section">
   <div class="wrap narrow center">
     <span class="sticker">BUILDER</span>
-    <div class="video" role="img" aria-label="Summit video">
-      <div class="play"></div>
-      <small>Watch This First</small>
+    <div class="video" id="vslVideo" aria-label="Summit video">
+      <video id="vslPlayer" playsinline preload="metadata"
+             style="position:absolute;inset:0;width:100%;height:100%;object-fit:contain;background:#000;z-index:1;"
+             poster="https://kels-topaz.vercel.app/assets/Day_1.png"
+             src="https://kels-topaz.vercel.app/assets/698609473fae0ac1b12cc130.mp4"></video>
+      <button type="button" class="play" id="vslPlay" aria-label="Play video"
+              style="position:absolute;z-index:3;border:none;cursor:pointer;"></button>
+      <small id="vslLabel" style="z-index:3;">Watch This First</small>
     </div>
     <p class="eyebrow mt-l">Get Ready To Learn From Mike Jenkins</p>
     <h2 class="mt-s">How To Stop Flipping And Start Building New Construction From The Ground Up — And Stack Three Fees Before The House Even Sells.</h2>
@@ -595,6 +600,24 @@ document.addEventListener("DOMContentLoaded", function () {
   document.querySelectorAll("[data-countdown]").forEach(function (node) {
     startCountdown(node.getAttribute("data-countdown"), node.id);
   });
+
+  /* VSL video play/pause */
+  (function () {
+    var v = document.getElementById("vslPlayer");
+    var btn = document.getElementById("vslPlay");
+    var label = document.getElementById("vslLabel");
+    if (!v || !btn) return;
+    function setPlaying(on) {
+      btn.style.display = on ? "none" : "";
+      if (label) label.style.display = on ? "none" : "";
+    }
+    function toggle() { v.paused ? v.play() : v.pause(); }
+    btn.addEventListener("click", toggle);
+    v.addEventListener("click", toggle);
+    v.addEventListener("play", function () { setPlaying(true); });
+    v.addEventListener("pause", function () { setPlaying(false); });
+    v.addEventListener("ended", function () { setPlaying(false); });
+  })();
 });
 </script>
 </body>
